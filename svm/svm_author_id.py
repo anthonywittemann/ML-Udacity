@@ -25,7 +25,18 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 
 #########################################################
-### your code goes here ###
+# make the prediction
+from sklearn.svm import SVC
+classifier = SVC(kernel='linear')
+classifier.fit(features_train, labels_train)
+prediction = classifier.predict(features_test)
+print "prediction", prediction
+
+
+# calculate the accuracy (no. of points classified correctly / all points in test set)
+from sklearn.metrics import accuracy_score
+accuracy = accuracy_score(prediction, labels_test)
+print "accuracy", accuracy
 
 #########################################################
 
