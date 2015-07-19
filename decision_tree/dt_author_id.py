@@ -27,7 +27,8 @@ features_train, features_test, labels_train, labels_test = preprocess()
 #########################################################
 ### your code goes here ###
 from sklearn import tree
-clf = tree.DecisionTreeClassifier(min_samples_split=2)
+# don't split anymore after 40 examples in leaf nodes
+clf = tree.DecisionTreeClassifier(min_samples_split=40)
 
 clf.fit(features_train, labels_train)
 
@@ -36,6 +37,10 @@ prediction = clf.predict(features_test)
 from sklearn.metrics import accuracy_score
 acc = accuracy_score(prediction, labels_test)
 print acc
+
+# calculate the number of features
+print 'number of features:', len(features_train[0])
+
 #########################################################
 
 
