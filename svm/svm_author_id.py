@@ -37,13 +37,18 @@ from sklearn.svm import SVC
 classifier = SVC(kernel='rbf', C=10000.) 
 classifier.fit(features_train, labels_train)
 prediction = classifier.predict(features_test)
-print "prediction", prediction
+print 'prediction', prediction
+# predict the values of the 10th, 26th, 50th emails
+#for i in [10,26,50]:
+#	print i, ": ", prediction[i]
 
+# count the number of emails by Chris (value of 1)
+print 'number of Chris emails:', sum(prediction == 1)
 
 # calculate the accuracy (no. of points classified correctly / all points in test set)
 from sklearn.metrics import accuracy_score
 accuracy = accuracy_score(prediction, labels_test)
-print "accuracy", accuracy
+print 'accuracy', accuracy
 
 #########################################################
 
