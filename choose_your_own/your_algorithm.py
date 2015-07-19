@@ -27,28 +27,29 @@ plt.ylabel("grade")
 plt.show()
 #################################################################################
 
+print 'starting training'
 
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
 
 # KNN Classifier
-from sklearn.neighbors import KNeighborsClassifier
-clf = KNeighborsClassifier(n_neighbors=3)	#accuracy with nn=3: 
+from sklearn.neighbors import KNeighborsClassifier 
+clf = KNeighborsClassifier(n_neighbors=4)	#accuracy with nn=3: .936, nn=4: .94, nn=5: .92
 
 # Ensemble Methods: Adaboost, Random Forest
-#from sklearn.ensemble import AdaBoostClassifier
+#from sklearn.ensemble import AdaBoostClassifier	# accuracy n_est=2: .804
 #clf = AdaBoostClassifier(n_estimators=2)
 
-#from sklearn.ensemble import RandomForestClassifier
+#from sklearn.ensemble import RandomForestClassifier		# accuracy n_est=20, max_depth=5: .92
 #clf = RandomForestClassifier(n_estimators=20, max_depth=5)
 
 
 clf.fit(features_train, labels_train)
 prediction = clf.predict(features_test)
 
-
-
-
+from sklearn.metrics import accuracy_score
+acc = accuracy_score(prediction, labels_test)
+print 'accuracy:', acc
 
 
 try:
