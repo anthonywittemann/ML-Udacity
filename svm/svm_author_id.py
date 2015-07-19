@@ -25,9 +25,16 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 
 #########################################################
+
+#reduce the training set size
+#features_train = features_train[:len(features_train)/100] 
+#labels_train = labels_train[:len(labels_train)/100] 
+
 # make the prediction
 from sklearn.svm import SVC
-classifier = SVC(kernel='linear')
+#classifier = SVC(kernel='linear')
+# try different values of C - 10.0, 100., 1000., and 10000. (10000 best)
+classifier = SVC(kernel='rbf', C=10000.) 
 classifier.fit(features_train, labels_train)
 prediction = classifier.predict(features_test)
 print "prediction", prediction
