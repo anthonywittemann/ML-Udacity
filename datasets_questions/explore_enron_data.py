@@ -20,5 +20,12 @@ import pickle
 enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
 #print enron_data
 #print len(enron_data)
+nPOI = 0
+for person, features_dict in enron_data.items():
+	for key, value in features_dict.items():
+		if key == 'poi' and value == True:
+			nPOI += 1
+
+print 'POIs:', nPOI
 
 
