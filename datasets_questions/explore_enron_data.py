@@ -21,10 +21,18 @@ enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r")
 #print enron_data
 #print len(enron_data)
 nPOI = 0
+nSalary = 0
+nEmail = 0
 for person, features_dict in enron_data.items():
 	for key, value in features_dict.items():
 		if key == 'poi' and value == True:
 			nPOI += 1
+		# How many folks have a quantified salary? Known email address?
+		elif key == 'salary' and value != 'NaN':
+			nSalary += 1
+		elif key == 'email_address' and value != 'NaN':
+			nEmail += 1
+
 
 print 'POIs:', nPOI
 
@@ -34,4 +42,7 @@ print 'email messages from Wesley Colwell to persons of interest:', enron_data['
 
 print 'value of stock options exercised by Jeffrey Skilling:', enron_data['SKILLING JEFFREY K']['exercised_stock_options']
 
-print 'value of stock options exercised by Kenneth Lay:', enron_data['LAY KENNETH L']
+#print 'value of stock options exercised by Kenneth Lay:', enron_data['LAY KENNETH L']
+
+print 'number valid salaries:', nSalary
+print 'number valid email addresses:', nEmail
