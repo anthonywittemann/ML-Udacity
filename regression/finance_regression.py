@@ -45,7 +45,7 @@ reg.fit( feature_train, target_train )
 print 'weights:', reg.coef_
 print 'bias:', reg.intercept_
 print 'score using training set (incorrect):', reg.score( feature_train, target_train )
-print 'r squared score using test set:', reg.score( feature_test, target_test )
+print 'score using test set:', reg.score( feature_test, target_test )
 
 
 ### draw the scatterplot, with color-coded training and testing points
@@ -67,6 +67,11 @@ try:
     plt.plot( feature_test, reg.predict(feature_test) )
 except NameError:
     pass
+
+reg.fit(feature_test, target_test)
+plt.plot(feature_train, reg.predict(feature_train), color="b") 
+print 'new slope:', reg.coef_
+
 plt.xlabel(features_list[1])
 plt.ylabel(features_list[0])
 plt.legend()
