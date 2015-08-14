@@ -12,6 +12,7 @@ import pickle
 import numpy
 import matplotlib.pyplot as plt
 import sys
+
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 
@@ -45,37 +46,69 @@ data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "r")
 data_dict.pop('TOTAL',0)
 
 ### find min, max of exercised stock options, salary
-features = ["salary"] #["exercised_stock_options"]
-data = featureFormat(data_dict, features)
-print data.max()
-print data.min()
+features_salary = ["salary"] #["exercised_stock_options"]
+data_salary = featureFormat(data_dict, features_salary)
+#numpy.append(data_salary, 200000.)
+data_salary = numpy.array(map(lambda x: float(x), data_salary))
+print data_salary.max()
+print data_salary.min()
+
+features_stock = ["exercised_stock_options"]
+data_stock = featureFormat(data_dict, features_stock)
+#numpy.append(data_stock, 1000000.)
+data_stock = numpy.array(map(lambda x: float(x), data_stock))
+# print data_salary.max()
+# print data_salary.min()
+
+salary = [min(data_salary),200000.0,max(data_salary)]
+ex_stok = [min(data_stock),1000000.0,max(data_stock)]
+
+from sklearn import preprocessing
+min_max_scaler = preprocessing.MinMaxScaler()
+
+salary = numpy.array([[x] for x in salary])
+ex_stok = numpy.array([[x] for x in ex_stok])
+scaler_salary = preprocessing.MinMaxScaler()
+scaler_stok = preprocessing.MinMaxScaler()
+rescaled_salary = scaler_salary.fit_transform(salary)
+rescaled_stock = scaler_salary.fit_transform(ex_stok)
+print rescaled_salary
+print rescaled_stock
+
+print 'scaled $200k salary: {0}'.format(salary_minmax[len(salary_minmax) - 1])
+print 'scaled $1 million stock options: {0}'.format(stock_minmax[len(stock_minmax) - 1])
 
 ### the input features we want to use 
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
-feature_3 = "total_payments"
+#feature_3 = "total_payments"
 poi  = "poi"
-features_list = [poi, feature_1, feature_2, feature_3]
+#features_list = [poi, feature_1, feature_2, feature_3]
+features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
+
 
 
 ### in the "clustering with 3 features" part of the mini-project,
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, line below assumes 2 features)
-for f1, f2, _ in finance_features:
+#for f1, f2, _ in finance_features:
+for f1, f2 in finance_features:
     plt.scatter( f1, f2 )
 plt.show()
 
 
 
 from sklearn.cluster import KMeans
-features_list = ["poi", feature_1, feature_2, feature_3]
+#features_list = ["poi", feature_1, feature_2, feature_3]
+features_list = [poi, feature_1, feature_2]
 data2 = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data2 )
-clf = KMeans(n_clusters=3)
+#clf = KMeans(n_clusters=3)
+clf = KMeans(n_clusters=2)
 pred = clf.fit_predict( finance_features )
 Draw(pred, finance_features, poi, name="clusters_before_scaling.pdf", f1_name=feature_1, f2_name=feature_2)
 
